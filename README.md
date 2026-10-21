@@ -39,6 +39,8 @@ The DNS request flow is:
 
 ## Implementation
 
+![proxmox dashbord](proxmox-dashboard)
+
 ### 1. Deploy Pi-hole
 
 - Deployed Pi-hole in a Linux LXC container on Proxmox VE.
