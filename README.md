@@ -60,21 +60,22 @@ The DNS request flow is:
 ## Validation and Testing
 
 ### Pi-hole Dashboard
-![Pi-hole Dashboard](screenshots/Pi-hole-dashboard.png)
+
+![Pi-hole Dashboard](screenshots/pihole-dashboard.png)
 
 The dashboard provides visibility into DNS activity and filtering statistics.
 
 
 
 ### Successful DNS Resolution
-![Pi-hole Dashboard](screenshots/dns-lookup-succsess.png)
+![Successful DNS Lookup](screenshots/dns-lookup-success.png)
 
 Ran `nslookup example.com` from Windows PowerShell. The output identified Pi-hole as the DNS server and returned IP addresses for the requested domain.
 
 
 
 ### Blocked-Domain Test
-![Pi-hole Dashboard](screenshots/blocked-query-logs.png)
+![Blocked Domain Test](screenshots/dns-block-test.png)
 
 
 Ran `nslookup doubleclick.net` to test domain filtering. The query returned `0.0.0.0` and `::`, consistent with Pi-hole's blocking response. The Query Log was also used to inspect the corresponding DNS request and its blocking status.
