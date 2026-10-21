@@ -1,110 +1,132 @@
-# Pi-hole-DNS-Filtering-on-Proxmox
-Deployed Pi-hole in a Proxmox VE LXC container for DNS-based ad blocking. Configured upstream DNS, connected a Windows PC, and tested domain resolution and blocking with nslookup. Troubleshot gateway connectivity issues while developing hands-on skills in Linux, virtualization, IPv4 networking, and cybersecurity.
+# Pi-hole DNS Filtering on Proxmox
+
+A hands-on homelab project deploying Pi-hole in a Proxmox VE Linux container to provide DNS-based domain blocking and filtering for a Windows client.
+
+
 
 ## Project Overview
 
-I deployed **Pi-hole**, a network-level DNS sinkhole, inside a Linux container on **Proxmox VE**. The goal was to gain hands-on experience with virtualization, Linux administration, DNS configuration, network troubleshooting, and DNS-based ad and tracking domain blocking.
+The goal of this project was to deploy a network-level DNS filtering service, configure a Windows client to use it, and verify that DNS resolution and domain blocking worked as expected.
 
-This project is part of my ongoing IT and cybersecurity homelab.
-
-![Pi-hole Network Diagram](Network-Diagram.png)
+This project provided a lot of great hands on learning with Linux services, virtualization, DNS configuration, network troubleshooting, and technical documentation.
 
 ## Lab Environment
 
-| Component | Configuration |
-|---|---|
-| Hypervisor | Proxmox VE |
-| DNS filtering service | Pi-hole |
-| Deployment method | Linux LXC container |
-| Pi-hole IP address | `192.0.2.50` |
-| Default gateway | `192.0.2.1` |
-| Upstream DNS provider | Google DNS |
-| Test client | Windows workstation |
-| Management interface | Pi-hole web dashboard |
+| Component               | Description               |
+| ----------------------- | ------------------------- |
+| Virtualization platform | Proxmox VE                |
+| DNS filtering service   | Pi-hole                   |
+| Deployment method       | Linux LXC container       |
+| Client operating system | Windows                   |
+| DNS upstream provider   | Google Public DNS         |
+| Testing tools           | PowerShell and `nslookup` |
 
-*Privacy note: IP addresses shown in this README are documentation examples and do not represent the actual lab configuration. Real network details and credentials have been omitted.*
+*Network addresses are omitted from this overview to keep the configuration documentation portable.*
+
+## Network Architecture
+
+![Pi-hole Network Diagram](Network-Diagram.png)
+
+The lab consists of a Windows client connected to a local network, with DNS requests directed to Pi-hole running in a Proxmox LXC container.
+
+The DNS request flow is:
+
+1. The Windows client requests an IP address for a domain.
+2. The request is sent to Pi-hole.
+3. Pi-hole checks the requested domain against its filtering lists.
+4. Allowed requests are resolved through the configured upstream DNS provider.
+5. Blocked requests receive a blocking response instead of a normal destination address.
 
 ## Implementation
 
-1. Created and configured a Linux container in Proxmox VE.
-2. Troubleshot network connectivity caused by an incorrectly configured default gateway.
-3. Corrected the gateway configuration and verified connectivity.
-4. Installed Pi-hole and configured its upstream DNS provider.
-5. Accessed the Pi-hole administration dashboard.
-6. Configured a Windows workstation to use Pi-hole for DNS resolution.
-7. Tested normal DNS resolution and DNS-based domain blocking from Windows Command Prompt.
+### 1. Deploy Pi-hole
+
+- Deployed Pi-hole in a Linux LXC container on Proxmox VE.
+- Configured the container for use as a local DNS filtering service.
+- Accessed the Pi-hole administration interface through a web browser.
+
+### 2. Configure the Windows Client
+
+- Configured the Windows client to use Pi-hole as its DNS resolver.
+- Verified the configured DNS server using PowerShell.
+- Used `nslookup` to test domain resolution and filtering behavior.
+
+### 3. Test DNS Filtering
+
+- Tested a standard domain to verify that normal DNS resolution continued to work.
+- Queried an advertising-related domain to test Pi-hole's blocking behavior.
+- Inspected Pi-hole's Query Log to review DNS requests from the Windows client.
 
 ## Validation and Testing
 
-### Test 1: Normal DNS Resolution
+### Pi-hole Dashboard
 
-Command:
+![Pi-hole Dashboard](screenshots/Pi-hole dashboard.png)
 
-```powershell
-nslookup example.com
-```
+The dashboard provides visibility into DNS activity and filtering statistics.
 
-Result: The DNS response identified Pi-hole as the DNS server and returned IP addresses for `example.com`.
 
-**What this verified:** The Windows workstation was sending DNS queries to Pi-hole and receiving valid responses for an allowed domain.
 
-### Test 2: Blocked-Domain Response
+### Successful DNS Resolution
 
-Command:
+![Pi-hole Dashboard](screenshots/dns-lookup-succsess.png)
 
-```powershell
-nslookup doubleclick.net
-```
+Ran `nslookup example.com` from Windows PowerShell. The output identified Pi-hole as the DNS server and returned IP addresses for the requested domain.
 
-Result: Pi-hole returned `0.0.0.0` and `::`, consistent with a blocked-domain response.
 
-**What this verified:** Pi-hole was applying its DNS filtering policy to the test domain.
 
-## Troubleshooting Experience
+### Blocked-Domain Test
 
-During deployment, I encountered a network connectivity issue caused by an incorrectly configured default gateway.
+![Pi-hole Dashboard](screenshots/blocked query logs.png)
 
-Troubleshooting steps:
 
-- Identified an incorrect gateway address in the container configuration.
-- Corrected the gateway to match the lab's network configuration.
-- Retested network connectivity.
-- Continued the installation after connectivity was restored.
-- Verified DNS resolution from a Windows client.
-- Tested DNS filtering using a known advertising domain.
+Ran `nslookup doubleclick.net` to test domain filtering. The query returned `0.0.0.0` and `::`, consistent with Pi-hole's blocking response. The Query Log was also used to inspect the corresponding DNS request and its blocking status.
 
-This troubleshooting process provided practical experience with IPv4 networking, default gateways, DNS resolution, and client-server connectivity.
+
+
+### Validation Results
+
+| Test                             | Result                               |
+| -------------------------------- | ------------------------------------ |
+| Pi-hole administration interface | Accessible                           |
+| Windows client DNS configuration | Verified                             |
+| Standard domain resolution       | Successful                           |
+| Advertising-domain filtering     | Blocking response observed           |
+| DNS request visibility           | Queries visible in Pi-hole Query Log |
+
+## Troubleshooting and Verification
+
+This project involved validating the configuration from both the client and server sides.
+
+- Used `nslookup` to identify the DNS server handling client requests.
+- Compared successful domain resolution with a domain-blocking test.
+- Inspected the Pi-hole Query Log to identify client requests and query types, including `A` and `AAAA` records.
+- Used the administration dashboard to review DNS activity and filtering behavior.
+
+These checks help distinguish between a DNS connectivity problem and a domain being blocked by filtering rules.
 
 ## Skills Practiced
 
-- Proxmox VE virtualization
-- Linux system administration
-- LXC container deployment
-- DNS resolution and upstream DNS configuration
-- IPv4 addressing and default gateways
-- Windows network configuration
-- Command-line troubleshooting
-- DNS-based advertising and tracking domain blocking
-- Service validation and technical documentation
-- Cybersecurity homelab development
+- **DNS:** Resolver configuration, domain resolution, and DNS filtering.
+- **Networking:** Client-to-service communication and private network addressing.
+- **Linux:** Deploying and working with a Linux-based network service.
+- **Virtualization:** Running a service inside a Proxmox VE LXC container.
+- **Windows troubleshooting:** Using PowerShell and `nslookup` to test connectivity and name resolution.
+- **Technical documentation:** Creating a network diagram, recording test results, and organizing screenshots in GitHub.
+- **Troubleshooting methodology:** Testing expected behavior and inspecting logs to verify results.
 
 ## Future Improvements
 
-- Extend Pi-hole DNS filtering to additional devices.
-- Plan and implement network-wide DNS configuration.
-- Prevent IP address conflicts through appropriate DHCP planning.
-- Investigate IPv6 DNS behavior and potential DNS bypass paths.
-- Review Pi-hole Query Log and blocking statistics.
-- Create a sanitized network topology diagram.
-- Add screenshots of the dashboard and test results with identifying details removed.
-- Document future configuration changes and troubleshooting findings.
+Planned improvements to expand the lab and demonstrate additional IT support and cybersecurity skills:
+
+- Configure router-level DNS settings so additional devices can use Pi-hole.
+- Investigate IPv6 DNS configuration to ensure DNS traffic follows the intended filtering path.
+- Document DHCP and DNS configuration and how they work together.
+- Add a Windows troubleshooting lab covering user accounts, permissions, Event Viewer, and PowerShell.
+- Explore centralized logging and security monitoring with tools such as Wazuh or Splunk.
 
 ## Project Status
 
-**Initial deployment and Windows client testing completed.**
+**Completed:** Initial Pi-hole deployment, Windows client DNS configuration, successful DNS resolution testing, domain-blocking verification, network diagram, and GitHub documentation.
 
-Future work includes expanding DNS filtering to additional devices, improving network-wide DNS management, investigating IPv6 behavior, and documenting the completed configuration.
-
----
-
-*This project demonstrates hands-on practice with virtualization, Linux administration, networking, DNS filtering, and troubleshooting as part of my continued development in IT and cybersecurity.*
+**Next steps:** Expand filtering to additional clients and build further troubleshooting and security monitoring projects.
