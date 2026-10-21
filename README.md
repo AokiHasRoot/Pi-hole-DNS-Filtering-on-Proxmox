@@ -21,7 +21,6 @@ This project provided a lot of great hands on learning with Linux services, virt
 | DNS upstream provider   | Google Public DNS         |
 | Testing tools           | PowerShell and `nslookup` |
 
-*Network addresses are omitted from this overview to keep the configuration documentation portable.*
 
 ## Network Architecture
 
