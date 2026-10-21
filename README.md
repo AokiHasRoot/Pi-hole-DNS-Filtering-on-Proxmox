@@ -1,4 +1,4 @@
-# Pi-hole-DNS-Filtering-on-Proxmox    ![Pi-hole Network Diagram](Network-Diagram.png)
+# Pi-hole-DNS-Filtering-on-Proxmox
 Deployed Pi-hole in a Proxmox VE LXC container for DNS-based ad blocking. Configured upstream DNS, connected a Windows PC, and tested domain resolution and blocking with nslookup. Troubleshot gateway connectivity issues while developing hands-on skills in Linux, virtualization, IPv4 networking, and cybersecurity.
 
 ## Project Overview
@@ -6,6 +6,8 @@ Deployed Pi-hole in a Proxmox VE LXC container for DNS-based ad blocking. Config
 I deployed **Pi-hole**, a network-level DNS sinkhole, inside a Linux container on **Proxmox VE**. The goal was to gain hands-on experience with virtualization, Linux administration, DNS configuration, network troubleshooting, and DNS-based ad and tracking domain blocking.
 
 This project is part of my ongoing IT and cybersecurity homelab.
+
+![Pi-hole Network Diagram](Network-Diagram.png)
 
 ## Lab Environment
 
