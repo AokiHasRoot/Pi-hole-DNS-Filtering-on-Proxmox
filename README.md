@@ -39,7 +39,7 @@ The DNS request flow is:
 
 ## Implementation
 
-![proxmox dashbord](proxmox-dashboard)
+![Proxmox Dashboard](screenshots/proxmox-dashboard.png)
 
 ### 1. Deploy Pi-hole
 
