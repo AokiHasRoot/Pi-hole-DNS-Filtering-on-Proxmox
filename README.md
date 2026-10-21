@@ -116,16 +116,17 @@ These checks help distinguish between a DNS connectivity problem and a domain be
 
 ## Future Improvements
 
-Planned improvements to expand the lab and demonstrate additional IT support and cybersecurity skills:
+Planned enhancements to expand the functionality of this lab and develop additional IT support and cybersecurity skills.
 
-- Configure router-level DNS settings so additional devices can use Pi-hole.
-- Investigate IPv6 DNS configuration to ensure DNS traffic follows the intended filtering path.
-- Document DHCP and DNS configuration and how they work together.
-- Add a Windows troubleshooting lab covering user accounts, permissions, Event Viewer, and PowerShell.
-- Explore centralized logging and security monitoring with tools such as Wazuh or Splunk.
+Pi-hole and Network Improvements
 
-## Project Status
+* Configure router-level DNS settings to extend Pi-hole filtering to additional devices.
+* Investigate IPv6 DNS configuration to verify that DNS requests follow the intended filtering path.
+* Document how DHCP and DNS work together in a home network.
 
-**Completed:** Initial Pi-hole deployment, Windows client DNS configuration, successful DNS resolution testing, domain-blocking verification, network diagram, and GitHub documentation.
+Future IT and Cybersecurity Projects
 
-**Next steps:** Expand filtering to additional clients and build further troubleshooting and security monitoring projects.
+* Build a Windows help desk troubleshooting lab covering user accounts, file permissions, Event Viewer, and PowerShell.
+* Explore centralized logging and security monitoring using tools such as Wazuh or Splunk.
+* Document troubleshooting scenarios, test results, and lessons learned in separate GitHub repositories.
+
